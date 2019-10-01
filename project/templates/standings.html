@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Standings</h1>
+<ol>
+    {% for user in standings %}
+    <li>{{ user["name"] }} has burnt {{ user["calories"] }}</li>
+    {% endfor %}
+</ol>
+{% endblock %}
