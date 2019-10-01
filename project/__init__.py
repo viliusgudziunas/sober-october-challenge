@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
 app = Flask(__name__)
-app.config.from_object("project.config.DevelopmentConfig")
+app.config.from_object("project.config.ProductionConfig")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
