@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>Standings</h1>
-<ol>
-    {% for user in standings %}
-    <li>{{ user["name"] }} has burnt {{ user["calories"] }} calories</li>
-    {% endfor %}
-</ol>
+{% block app_content %}
+<div class="page-header">
+    <h1>Standings</h1>
+</div>
+<div class="panel panel-default">
+    <table class="table">
+        <tr>
+            <td><b>#</b></td>
+            <td><b>Competitor</b></td>
+            <td><b>Calories</b></td>
+        </tr>
+        {% for user in standings %}
+        <tr>
+            <td>{{ user["place"] }}</td>
+            <td>{{ user["name"] }}</td>
+            <td>{{ user["calories"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

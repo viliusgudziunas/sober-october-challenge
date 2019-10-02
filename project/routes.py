@@ -6,28 +6,15 @@ from project.forms import LoginForm, ExerciseForm, RegistrationForm
 from project.models import User, Exercise
 
 
-@app.route("/", methods=["GET", "POST"])
-@login_required
+@app.route("/")
 def index():
-    form = ExerciseForm()
-    if form.validate_on_submit():
-        exercise = Exercise(
-            exercise=form.exercise.data,
-            calories=form.calories.data,
-            date=form.date.data,
-            author=current_user
-        )
-        db.session.add(exercise)
-        db.session.commit()
-        flash("Exercise submitted!")
-        return redirect(url_for("index"))
-    return render_template("index.html", form=form)
+    return render_template("index.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
+        return redirect(url_for("add_exercise"))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -37,7 +24,7 @@ def login():
         login_user(user)
         next_page = request.args.get("next")
         if not next_page or url_parse(next_page).netloc != "":
-            next_page = url_for("index")
+            next_page = url_for("add_exercise")
         return redirect(next_page)
     return render_template("login.html", form=form)
 
@@ -51,18 +38,25 @@ def logout():
 @app.route("/standings")
 @login_required
 def standings():
-    users = User.query.all()
+    users = sorted(
+        User.query.all(), key=lambda k: k.calories_burnt, reverse=True
+    )
     standings = []
+    place = 1
     for user in users:
-        standings.append({"name": user.name, "calories": user.calories_burnt})
-    standings = sorted(standings, key=lambda k: k["calories"], reverse=True)
+        standings.append({
+            "place": place,
+            "name": user.name,
+            "calories": user.calories_burnt
+        })
+        place += 1
     return render_template("standings.html", standings=standings)
 
 
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('add_exercise'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
@@ -75,3 +69,21 @@ def registration():
         flash("Congratulations, you have registered for Sober October challenge!")
         return redirect(url_for("login"))
     return render_template("registration.html", form=form)
+
+
+@app.route("/add_exercise", methods=["GET", "POST"])
+@login_required
+def add_exercise():
+    form = ExerciseForm()
+    if form.validate_on_submit():
+        exercise = Exercise(
+            exercise=form.exercise.data,
+            calories=form.calories.data,
+            date=form.date.data,
+            author=current_user
+        )
+        db.session.add(exercise)
+        db.session.commit()
+        flash("Exercise submitted!")
+        return redirect(url_for("standings"))
+    return render_template("add_exercise.html", form=form)
