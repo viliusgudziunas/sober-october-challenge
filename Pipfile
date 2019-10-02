@@ -17,6 +17,7 @@ flask-wtf = "*"
 flask-bcrypt = "*"
 flask-migrate = "*"
 flask-login = "*"
+flask-bootstrap = "*"
 
 [requires]
 python_version = "3.7"
