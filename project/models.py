@@ -1,6 +1,7 @@
 from datetime import datetime
-from project import app, db, bcrypt, login
+from flask import current_app
 from flask_login import UserMixin
+from project import db, bcrypt, login
 
 
 class User(UserMixin, db.Model):
@@ -15,7 +16,7 @@ class User(UserMixin, db.Model):
         self.name = name
         self.email = email
         self.password = bcrypt.generate_password_hash(
-            password, app.config.get("BCRYPT_LOG_ROUNDS")
+            password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
 
     def check_password(self, password):
