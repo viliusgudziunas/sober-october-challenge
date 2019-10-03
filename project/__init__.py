@@ -7,10 +7,10 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 # Production config
-app.config.from_object("project.config.ProductionConfig")
+# app.config.from_object("project.config.ProductionConfig")
 
 # Development config
-# app.config.from_object("project.config.DevelopmentConfig")
+app.config.from_object("project.config.DevelopmentConfig")
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
