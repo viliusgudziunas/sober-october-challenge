@@ -51,10 +51,20 @@ def standings():
 @bp.route("/history")
 @login_required
 def history():
+    numbers = [
+        "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
+        "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "TwentyOne",
+        "TwentyTwo", "TwentyThree", "TwentyFour", "TwentyFive", "TwentySix", "TwentySeven", "TwentyEight",
+        "TwentyNine", "Thirty", "ThirtyOne"
+    ]
     start_date = date(2019, 10, 1)
     delta = date.today() - start_date
-    dates_in_october = []
-    for day in range(delta.days + 1):
-        dates_in_october.append(start_date + timedelta(days=day))
+    data = []
+    for index, day_index in enumerate(range(delta.days + 1)):
+        day = start_date + timedelta(days=day_index)
+        data.append({
+            "index": numbers[index],
+            "date": day
+        })
     exercises = Exercise.query.all()
-    return render_template("main/history.html", dates=dates_in_october, exercises=exercises)
+    return render_template("main/history.html", data=data, exercises=exercises)
