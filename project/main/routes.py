@@ -20,7 +20,7 @@ def add_exercise():
         exercise = Exercise(
             exercise=form.exercise.data,
             calories=form.calories.data,
-            date=form.date.data,
+            timestamp=form.date.data,
             author=current_user
         )
         db.session.add(exercise)
@@ -51,20 +51,22 @@ def standings():
 @bp.route("/history")
 @login_required
 def history():
-    numbers = [
-        "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
-        "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty", "TwentyOne",
-        "TwentyTwo", "TwentyThree", "TwentyFour", "TwentyFive", "TwentySix", "TwentySeven", "TwentyEight",
-        "TwentyNine", "Thirty", "ThirtyOne"
-    ]
     start_date = date(2019, 10, 1)
     delta = date.today() - start_date
     data = []
-    for index, day_index in enumerate(range(delta.days + 1)):
-        day = start_date + timedelta(days=day_index)
-        data.append({
-            "index": numbers[index],
-            "date": day
-        })
     exercises = Exercise.query.all()
-    return render_template("main/history.html", data=data, exercises=exercises)
+    for day_index in range(delta.days + 1):
+        day = start_date + timedelta(days=day_index)
+        todays_exercises = []
+        for exercise in exercises:
+            if day == exercise.date:
+                todays_exercises.append({
+                    "author": exercise.author_name,
+                    "exercise": exercise.exercise,
+                    "calories": exercise.calories
+                })
+        data.append({
+            "date": day,
+            "exercises": todays_exercises
+        })
+    return render_template("main/history.html", data=data)

@@ -41,11 +41,20 @@ class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     exercise = db.Column(db.String(64), nullable=False)
     calories = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
-    def __init__(self, exercise, calories, date, author):
+    def __init__(self, exercise, calories, timestamp, author):
         self.exercise = exercise
         self.calories = calories
-        self.date = date
+        self.timestamp = timestamp
         self.user_id = author.id
+
+    @property
+    def date(self):
+        return self.timestamp.date()
+
+    @property
+    def author_name(self):
+        user = User.query.filter_by(id=self.user_id).first()
+        return user.name
