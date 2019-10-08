@@ -53,8 +53,8 @@ def standings():
 def history():
     start_date = date(2019, 10, 1)
     delta = date.today() - start_date
-    data = []
     exercises = Exercise.query.all()
+    data = []
     for day_index in range(delta.days + 1):
         day = start_date + timedelta(days=day_index)
         todays_exercises = []
