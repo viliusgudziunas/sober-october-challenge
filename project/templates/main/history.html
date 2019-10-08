@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/history.css') }}">
+{% endblock %}
+
+{% block app_content %}
+<div class="page-header">
+    <h1>History</h1>
+</div>
+{% for row in data[::-1] %}
+{% if row["exercises"] %}
+<button class="accordion">{{ row["date"] }}</button>
+<div class="panel">
+    {% for exercise in row["exercises"] %}
+    <p>{{ exercise["author"] }}: {{ exercise["exercise"] }} for {{ exercise["calories"] }} calories</p>
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='javascript/history.js') }}"></script>
+{{ super() }}
+{% endblock %}

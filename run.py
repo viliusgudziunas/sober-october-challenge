@@ -1,5 +1,10 @@
-from project import app, db
+from project import create_app, db
 from project.models import User, Exercise
+
+# Production
+app = create_app("ProductionConfig")
+# Development
+# app = create_app()
 
 
 @app.shell_context_processor

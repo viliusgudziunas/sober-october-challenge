@@ -5,18 +5,33 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 
-app = Flask(__name__)
-# Production config
-app.config.from_object("project.config.ProductionConfig")
+db = SQLAlchemy()
+migrate = Migrate()
+bcrypt = Bcrypt()
+login = LoginManager()
+login.login_view = "auth.login"
+bootstrap = Bootstrap()
 
-# Development config
-# app.config.from_object("project.config.DevelopmentConfig")
 
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
-login = LoginManager(app)
-login.login_view = "login"
-bootstrap = Bootstrap(app)
+def create_app(config="DevelopmentConfig"):
+    app = Flask(__name__)
+    app.config.from_object(f"project.config.{config}")
 
-from project import routes, models, errors
+    db.init_app(app)
+    migrate.init_app(app, db)
+    bcrypt.init_app(app)
+    login.init_app(app)
+    bootstrap.init_app(app)
+
+    from project.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
+
+    from project.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix="/auth")
+
+    from project.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    return app
+
+from project import models
