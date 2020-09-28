@@ -14,9 +14,7 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "postgresql://postgres:123456@localhost/sober-october"
-    # basedir = os.path.abspath(os.path.dirname(__file__))
-    # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
+        "postgresql://postgres:postgres@localhost:5432/sober-october"
     BCRYPT_LOG_ROUNDS = 4
 
 

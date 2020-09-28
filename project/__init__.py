@@ -23,15 +23,13 @@ def create_app(config="DevelopmentConfig"):
     login.init_app(app)
     bootstrap.init_app(app)
 
-    from project.errors import bp as errors_bp
+    from project.errors.handlers import bp as errors_bp
     app.register_blueprint(errors_bp)
 
-    from project.auth import bp as auth_bp
+    from project.auth.routes import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix="/auth")
 
-    from project.main import bp as main_bp
+    from project.main.routes import bp as main_bp
     app.register_blueprint(main_bp)
 
     return app
-
-from project import models

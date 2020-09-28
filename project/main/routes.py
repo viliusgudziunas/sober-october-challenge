@@ -1,10 +1,13 @@
 from datetime import date, timedelta
-from flask import render_template, redirect, url_for, flash
+
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
+
 from project import db
 from project.models import User, Exercise
-from project.main import bp
 from project.main.forms import ExerciseForm
+
+bp = Blueprint("main", __name__)
 
 
 @bp.route("/")
@@ -25,7 +28,7 @@ def add_exercise():
         )
         db.session.add(exercise)
         db.session.commit()
-        flash("Exercise submitted!")
+        flash("Great job partner! Make sure to come back tomorrow and GET SOME MORE!")
         return redirect(url_for("main.standings"))
     return render_template("main/add_exercise.html", form=form)
 
