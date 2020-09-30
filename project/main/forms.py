@@ -19,11 +19,11 @@ class ExerciseForm(FlaskForm):
             )
 
     def validate_date(self, date):
-        start = datetime(2020, 9, 1)
+        start = datetime(2020, 10, 1)
         if datetime.now() < datetime(2020, 11, 1):
             end = datetime.now()
         else:
-            end = datetime(2020, 9, 1)
+            end = datetime(2020, 10, 1)
         given_date = datetime(date.data.year, date.data.month, date.data.day)
         if not start <= given_date < end:
             raise ValidationError(
