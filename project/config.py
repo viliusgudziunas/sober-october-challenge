@@ -32,4 +32,6 @@ class StagingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration"""
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or \
-        "postgres://xjcxnevjniqnfl:23610365df41885ab81b1a1ed895efe564f69f8b35622756563ef10274d877f4@ec2-107-22-222-161.compute-1.amazonaws.com:5432/d54r43ajqah3rn"
+        ("postgres://ryrtidxzalvgjm:527404a459e83c728d9b69a4477b297837c398f07b684dc2168"
+         "9c0c548933651@ec2-46-137-84-140.eu-west-1.compute.amazonaws.com:5432/d3b8pr3i"
+         "khcl9b")
