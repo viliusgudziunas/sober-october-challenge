@@ -1,10 +1,11 @@
-from flask import redirect, url_for, flash, request, render_template
+from flask import Blueprint, redirect, url_for, flash, request, render_template
 from flask_login import current_user, login_user, logout_user
 from werkzeug.urls import url_parse
 from project import db
 from project.models import User
-from project.auth import bp
 from project.auth.forms import LoginForm, RegistrationForm
+
+bp = Blueprint("auth", __name__)
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -35,6 +36,7 @@ def logout():
 def registration():
     if current_user.is_authenticated:
         return redirect(url_for('main.add_exercise'))
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(
@@ -42,8 +44,10 @@ def registration():
             email=form.email.data,
             password=form.password.data
         )
+
         db.session.add(user)
         db.session.commit()
         flash("Congratulations, you have registered for Sober October challenge!")
         return redirect(url_for("auth.login"))
+
     return render_template("auth/registration.html", form=form)
