@@ -22,12 +22,18 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         valid_emails = [
-            "vilius@email.com",
-            "titas@email.com",
             "marius@email.com",
+            "ainis@email.com",
+            "aleksandras@email.com",
             "aurimas@email.com",
+            "deimante@email.com",
+            "dominykas@email.com",
+            "gintare@email.com",
+            "izabele@email.com",
+            "martynas@email.com",
             "olivija@email.com",
-            "ainis@email.com"
+            "titas@email.com",
+            "vilius@email.com"
         ]
         if user is not None or email.data not in valid_emails:
             raise ValidationError("Please use a different email address.")
