@@ -25,6 +25,7 @@ class RegistrationForm(FlaskForm):
             "marius@email.com",
             "ainis@email.com",
             "aleksandras@email.com",
+            "arnas@email.com",
             "aurimas@email.com",
             "deimante@email.com",
             "dominykas@email.com",
