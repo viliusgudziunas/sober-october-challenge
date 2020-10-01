@@ -36,19 +36,27 @@ def add_exercise():
 @bp.route("/standings")
 @login_required
 def standings():
-    users = sorted(
-        User.query.all(), key=lambda k: k.calories_burnt, reverse=True
-    )
+    users = sorted(User.query.all(), key=lambda k: k.calories_burnt, reverse=True)
     standings = []
-    place = 1
-    for user in users:
-        standings.append({
-            "place": place,
-            "name": user.name,
-            "calories": user.calories_burnt
-        })
-        place += 1
-    return render_template("main/standings.html", standings=standings)
+
+    for place, user in enumerate(users, start=1):
+        standings.append(
+            {"place": place, "name": user.name, "calories": user.calories_burnt}
+        )
+
+    exercises = sorted(Exercise.query.all(), key=lambda k: k.calories, reverse=True)[:3]
+    top_exercises = []
+
+    for place, exercise in enumerate(exercises, start=1):
+        top_exercises.append(
+            {"place": place,
+             "name": User.query.get(exercise.user_id).name,
+             "calories": exercise.calories,
+             "exercise": exercise.exercise}
+        )
+
+    return render_template("main/standings.html", standings=standings,
+                           top_exercises=top_exercises)
 
 
 @bp.route("/history")
