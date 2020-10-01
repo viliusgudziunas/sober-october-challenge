@@ -12,7 +12,7 @@
 {% for row in data[::-1] %}
 {% if row["exercises"] %}
 <button class="accordion">{{ row["date"] }}</button>
-<div class="panel">
+<div class="panel panel-default">
     {% for exercise in row["exercises"] %}
     <p>{{ exercise["author"] }}: {{ exercise["exercise"] }} for {{ exercise["calories"] }} calories</p>
     {% endfor %}

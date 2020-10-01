@@ -4,11 +4,15 @@
 <div class="page-header">
     <h1>Standings</h1>
 </div>
+
+<h3>Total Calories</h3>
+<br>
+
 <div class="panel panel-default">
     <table class="table">
         <tr>
             <td><b>#</b></td>
-            <td><b>Competitor</b></td>
+            <td><b>Person</b></td>
             <td><b>Calories</b></td>
         </tr>
         {% for user in standings %}
@@ -16,6 +20,29 @@
             <td>{{ user["place"] }}</td>
             <td>{{ user["name"] }}</td>
             <td>{{ user["calories"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<hr>
+<h3>Single Exercise</h3>
+<br>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr>
+            <td><b>#</b></td>
+            <td><b>Person</b></td>
+            <td><b>Calories</b></td>
+            <td><b>Exercise</b></td>
+        </tr>
+        {% for exercise in top_exercises %}
+        <tr>
+            <td>{{ exercise["place"] }}</td>
+            <td>{{ exercise["name"] }}</td>
+            <td>{{ exercise["calories"] }}</td>
+            <td>{{ exercise["exercise"] }}</td>
         </tr>
         {% endfor %}
     </table>
