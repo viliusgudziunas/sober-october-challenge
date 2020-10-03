@@ -20,6 +20,7 @@ def index():
 def add_exercise():
     form = ExerciseForm()
     if form.validate_on_submit():
+
         exercise = Exercise(
             exercise=form.exercise.data,
             calories=form.calories.data,
@@ -28,8 +29,10 @@ def add_exercise():
         )
         db.session.add(exercise)
         db.session.commit()
+
         flash("Great job partner! Make sure to come back tomorrow and GET SOME MORE!")
         return redirect(url_for("main.standings"))
+
     return render_template("main/add_exercise.html", form=form)
 
 
